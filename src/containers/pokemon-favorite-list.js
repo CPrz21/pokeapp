@@ -6,21 +6,21 @@ import {
 import Layout from '../components/pokemon-list-layout';
 import Empty from '../components/empty';
 import Separator from '../components/vertical-separator'
-import Pokemons from '../components/pokemons'
+import Favorites from '../components/favorites'
 
 export default class PokemonList extends Component{
   // keyExtractor = (item) => item.id.toString();
-  renderEmpty = () => <Empty text="Loading Your Pokemon" />;
+  renderEmpty = () => <Empty text="You Don´t have favorites yet" />;
   itemSeparator = () => <Separator color="#c7a008" />;
   renderItem = ({item}) => {
     return(
-      <Pokemons  {...item}/>
+      <Favorites  {...item}/>
     )
   };
   render(){
     return(
       <Layout
-      title='Pokemon 1st Generation'
+      title='Your Favorites Pokemon'
       >
         <FlatList
           // keyExtractor={this.keyExtractor}

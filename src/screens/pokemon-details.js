@@ -4,11 +4,15 @@ import {
   View,
   Image,
   StyleSheet,
-  Button
+  CheckBox,
+  Button,
+  AsyncStorage
 } from 'react-native';
 import API from '../api/api';
 import DetailsRow from '../components/pokemon-details-row'
-export default class pokemonDetails extends Component{
+import { withNavigation } from 'react-navigation';
+
+class pokemonDetails extends Component{
   state = {
     pokemonApi:'',
     pokemonId: '',
@@ -23,9 +27,13 @@ export default class pokemonDetails extends Component{
   async componentDidMount() {
     const { navigation } = this.props;
     const pokemonName = navigation.getParam('pokemon', 'pikachu');
+    let favorite = await AsyncStorage.getItem('favorites');
+    let favorites = JSON.parse(favorite);
+    let findFavorite = favorites.filter(value => value.name === pokemonName);
     const pokemon = await API.getPokemon(pokemonName);
     console.log(pokemon);
     this.setState({
+      checked: findFavorite.length > 0 ? true : false,
       pokemonId: pokemon.id,
       pokemonName: pokemon.name,
       pokemonImage: pokemon.sprites,
@@ -36,6 +44,50 @@ export default class pokemonDetails extends Component{
       pokemonHabilities:pokemon.abilities
     });
   }
+
+  addToFavorites = async () => {
+      let pokemons=[];
+      let favorite = await AsyncStorage.getItem('favorites');
+
+      let favorites = JSON.parse(favorite);
+      console.log(favorites);
+
+
+      if (!this.state.checked){
+        if (!favorites) {
+          pokemons.push({
+            name: this.state.pokemonName,
+            image: this.state.pokemonImage.front_default
+          });
+        }else{
+          pokemons = favorites;
+          pokemons.push({
+            name: this.state.pokemonName,
+            image: this.state.pokemonImage.front_default
+          });
+        }
+      }else{
+        let deleteFavorite = favorites.findIndex(value => value.name === this.state.pokemonName);
+        let favoriteDeleted = favorites.splice(deleteFavorite, 1);
+
+        pokemons = favorites;
+      }
+
+      console.log(pokemons);
+      // AsyncStorage.setItem('favorites', pokemons);
+
+      AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
+        .then(() => {
+          console.log('It was saved successfully')
+        })
+        .catch(() => {
+          console.log('There was an error saving the product')
+        });
+
+      this.setState({
+        checked: !this.state.checked
+      });
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -43,21 +95,24 @@ export default class pokemonDetails extends Component{
           <View style={styles.containerImage}>
             <Image style={styles.image} source={{ uri : this.state.pokemonImage.front_default}}/>
           </View>
-          <Button
-          title="Add to Favorites"
-          color="#3c5aa6"
-          />
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              value={this.state.checked}
+              onValueChange={ this.addToFavorites }
+            />
+            <Text style={styles.checkboxText}>{this.state.checked ? 'Added to favorites' : 'Add to favorites'}</Text>
+          </View>
         </View>
         <DetailsRow label="Id:" text={this.state.pokemonId} />
         <DetailsRow label="Name:" text={this.state.pokemonName} />
         <DetailsRow label="Height:" text={this.state.pokemonHeight} />
         <DetailsRow label="Weight:" text={this.state.pokemonWeight} />
         <DetailsRow label="Experience:" text={this.state.pokemonXperience} />
-        <View style={styles.logoContainer}>
-          <Image
-          style={styles.logo}
-          source={require('../assets/img/Pokemon-logo.png')}
-          />
+        <View style={styles.button}>
+          <Button
+          onPress={() => this.props.navigation.navigate('Favorites')}
+          title = "go to favorites"
+          color = "#3c5aa6"/>
         </View>
       </View>
     );
@@ -93,6 +148,13 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
+  checkboxContainer:{
+    flexDirection: 'row'
+  },
+  checkboxText: {
+    marginTop: 5,
+    fontSize:18
+  },
   logoContainer:{
     alignItems:'center',
     justifyContent:'center'
@@ -101,6 +163,10 @@ const styles = StyleSheet.create({
     width:100,
     height:100,
     resizeMode:'contain'
+  },
+  button:{
+    marginTop:25
   }
 });
 
+export default withNavigation(pokemonDetails);

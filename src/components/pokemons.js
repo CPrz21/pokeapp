@@ -10,11 +10,9 @@ import { withNavigation } from 'react-navigation';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 class Pokemons extends Component {
-  // let text = props.name.slice(0, 1).toUpperCase() + props.name.slice(1, props.name.length);
 render(){
   return(
     <TouchableOpacity onPress={() => {
-            /* 1. Navigate to the Details route with params */
             this.props.navigation.navigate('Details', {
               pokemon: this.props.name,
             });

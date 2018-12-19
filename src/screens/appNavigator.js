@@ -1,19 +1,10 @@
-// import { createStackNavigator } from 'react-navigation';
-// import Home from '../screens/pokemon-details';
-
-// const AppNavigator = createStackNavigator({
-//   Home: { screen: Home },
-// });
-
-// export default AppNavigator;
-
-
 import {
       createStackNavigator,
       createAppContainer
     } from 'react-navigation';
 import Home from '../screens/main-pokemon-list';
 import Details from '../screens/pokemon-details';
+import Favorites from '../screens/pokemon-favorites'
 
 const RootStack = createStackNavigator({
     Home: {
@@ -21,6 +12,9 @@ const RootStack = createStackNavigator({
     },
     Details: {
       screen: Details
+    },
+    Favorites: {
+      screen: Favorites
     }
   });
 
