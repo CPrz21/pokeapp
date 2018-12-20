@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
 class storagePokemon {
+
   async removePokemon(pokemon) {
     let pokemons = [];
     let favorite = await AsyncStorage.getItem('favorites');
@@ -19,6 +20,21 @@ class storagePokemon {
       });
 
   }
+
+  removeAllPokemon(){
+    let pokemons = [];
+    AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
+    .then(() => {
+      console.log('It was removed successfully')
+      return true;
+    })
+    .catch(() => {
+      console.log('There was an error removing the pokemon')
+      return false;
+    });
+  }
+
+
 }
 
 export default new storagePokemon();

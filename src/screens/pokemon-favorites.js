@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {
   FlatList,
   View,
-  Image,
   Button,
-  Text,
   AsyncStorage,
   StyleSheet,
   ToastAndroid
@@ -23,7 +21,6 @@ export default class pokemonFavorites extends Component {
   async componentDidMount() {
     let favorite = await AsyncStorage.getItem('favorites');
     let favorites = JSON.parse(favorite);
-    console.log(favorites);
     this.setState({
       favorites: favorites
     })
@@ -34,7 +31,6 @@ export default class pokemonFavorites extends Component {
 
     let deleteFavorite = this.state.favorites.findIndex(value => value.name === pokemon);
     this.state.favorites.splice(deleteFavorite, 1);
-    // console.log(this.state.favorites);
     this.setState({
       favorites: this.state.favorites
     });
@@ -47,13 +43,23 @@ export default class pokemonFavorites extends Component {
       50,
     );
   }
+  removeAllFavorites = async () => {
+      const removed = await StoragePokemon.removeAllPokemon();
+      this.setState({
+        favorites: []
+      });
+      ToastAndroid.showWithGravityAndOffset(
+        `All favorite was removed!`,
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+  }
 
-
-  // keyExtractor = (item) => item.id.toString();
   renderEmpty = () => <Empty text="You Don´t have favorites yet" />;
   itemSeparator = () => <Separator color="#c7a008" />;
   renderItem = ({item}) => {
-    console.log(item);
     return(
       < Favorites fnRemove={this.removeFavorites} {...item}/>
     )
@@ -63,8 +69,12 @@ export default class pokemonFavorites extends Component {
       <Layout
       title='Your Favorites Pokemon'
       >
+        <Button
+          onPress={this.removeAllFavorites}
+          title="Remove All"
+          color = "#990033"
+        />
         <FlatList
-          // keyExtractor={this.keyExtractor}
           keyExtractor={(item, index) => index.toString()}
           data = { this.state.favorites }
           ListEmptyComponent = {this.renderEmpty}

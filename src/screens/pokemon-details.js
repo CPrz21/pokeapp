@@ -6,11 +6,13 @@ import {
   StyleSheet,
   CheckBox,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from 'react-native';
 import API from '../api/api';
 import DetailsRow from '../components/pokemon-details-row'
 import { withNavigation } from 'react-navigation';
+import StoragePokemon from '../api/functions';
 
 class pokemonDetails extends Component{
   state = {
@@ -45,7 +47,11 @@ class pokemonDetails extends Component{
   }
 
   addToFavorites = async () => {
-      let pokemons=[];
+    // const removed = await StoragePokemon.addPokemon(this.state.pokemonName, this.state.pokemonImage.front_default, this.state.checked);
+    // this.setState({
+    //   checked: !this.state.checked
+    // });
+    let pokemons=[];
       let favorite = await AsyncStorage.getItem('favorites');
 
       let favorites = JSON.parse(favorite);
@@ -71,10 +77,22 @@ class pokemonDetails extends Component{
 
       AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
         .then(() => {
-          console.log('It was saved successfully')
+          ToastAndroid.showWithGravityAndOffset(
+            `${this.state.pokemonName} added to your favorites!`,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
         })
         .catch(() => {
-          console.log('There was an error saving the product')
+          ToastAndroid.showWithGravityAndOffset(
+            `Sorry we have problems with ${this.state.pokemonName}`,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
         });
 
       this.setState({
