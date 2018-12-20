@@ -33,6 +33,17 @@ class pokemonDetails extends Component{
     let favorites = JSON.parse(favorite);
     let findFavorite = favorites.filter(value => value.name === pokemonName);
     const pokemon = await API.getPokemon(pokemonName);
+    console.log(pokemon.types);
+    var type=[];
+    var abilities = [];
+    pokemon.abilities.forEach((value) => {
+      abilities.push(value.ability.name)
+    });
+    pokemon.types.forEach((value) => {
+      type.push(value.type.name)
+    });
+
+    console.log(pokemon.abilities);
     this.setState({
       checked: findFavorite.length > 0 ? true : false,
       pokemonId: pokemon.id,
@@ -41,16 +52,12 @@ class pokemonDetails extends Component{
       pokemonHeight: pokemon.height,
       pokemonWeight: pokemon.weight,
       pokemonXperience: pokemon.base_experience,
-      pokemonType:pokemon.types,
-      pokemonHabilities:pokemon.abilities
+      pokemonType: type.join(", "),
+      pokemonHabilities: abilities.join(", ")
     });
   }
 
   addToFavorites = async () => {
-    // const removed = await StoragePokemon.addPokemon(this.state.pokemonName, this.state.pokemonImage.front_default, this.state.checked);
-    // this.setState({
-    //   checked: !this.state.checked
-    // });
     let pokemons=[];
       let favorite = await AsyncStorage.getItem('favorites');
 
@@ -122,6 +129,8 @@ class pokemonDetails extends Component{
         <DetailsRow label="Height:" text={this.state.pokemonHeight} />
         <DetailsRow label="Weight:" text={this.state.pokemonWeight} />
         <DetailsRow label="Experience:" text={this.state.pokemonXperience} />
+        <DetailsRow label="Abilities:" text={this.state.pokemonHabilities} />
+        <DetailsRow label="Type:" text={this.state.pokemonType} />
         <View style={styles.button}>
           <Button
           onPress={() => this.props.navigation.navigate('Favorites')}
@@ -136,11 +145,12 @@ class pokemonDetails extends Component{
 const styles = StyleSheet.create({
   topLogo:{
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop:10
   },
   logo:{
-    width: 200,
-    height: 100,
+    width: 150,
+    height: 50,
     resizeMode: 'contain'
   },
   header:{

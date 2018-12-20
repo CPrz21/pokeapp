@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   container:{
     flexDirection: 'row',
     marginLeft: 50,
+    marginRight: 50,
   },
   label:{
     fontSize:20,
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   text:{
-    fontSize:20
+    fontSize:20,
+    flexWrap: 'wrap',
   }
 });
