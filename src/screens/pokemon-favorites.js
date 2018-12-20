@@ -14,6 +14,22 @@ import Favorites from '../components/favorites';
 import StoragePokemon from '../api/functions';
 
 export default class pokemonFavorites extends Component {
+  static navigationOptions = {
+    title: 'My Favorites',
+    headerTitleStyle: {
+      alignSelf: 'center'
+    },
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#3c5aa6',
+      textAlign: 'center'
+    },
+    headerTitleStyle: {
+      width: '80%',
+      textAlign: 'center',
+    }
+  };
+
   state = {
     favorites:[]
   }
@@ -32,7 +48,7 @@ export default class pokemonFavorites extends Component {
     let deleteFavorite = this.state.favorites.findIndex(value => value.name === pokemon);
     this.state.favorites.splice(deleteFavorite, 1);
     this.setState({
-      favorites: this.state.favorites
+      favorites: this.state.favorites.length > 0 ? this.state.favorites : []
     });
 
     ToastAndroid.showWithGravityAndOffset(

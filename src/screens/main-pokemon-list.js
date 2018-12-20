@@ -7,6 +7,20 @@ import PokemonList from '../containers/pokemon-list';
 import API from '../api/api';
 
 export default class MainPokemonList extends Component {
+  static navigationOptions = {
+      title: 'Home',
+      headerTitleStyle: {alignSelf: 'center'},
+      headerTintColor: 'white',
+      headerStyle: {
+      backgroundColor: '#3c5aa6',
+      textAlign: 'center'
+      },
+      headerTitleStyle: {
+        width: '90%',
+        textAlign: 'center',
+      }
+  };
+
   state = {
     pokemonList:[]
   }

@@ -15,6 +15,22 @@ import { withNavigation } from 'react-navigation';
 import StoragePokemon from '../api/functions';
 
 class pokemonDetails extends Component{
+  static navigationOptions = {
+    title: 'Pokemon Details',
+    headerTitleStyle: {
+      alignSelf: 'center'
+    },
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#3c5aa6',
+      textAlign: 'center'
+    },
+    headerTitleStyle: {
+      width: '80%',
+      textAlign: 'center',
+    }
+  };
+
   state = {
     pokemonApi:'',
     pokemonId: '',
@@ -31,9 +47,8 @@ class pokemonDetails extends Component{
     const pokemonName = navigation.getParam('pokemon', 'pikachu');
     let favorite = await AsyncStorage.getItem('favorites');
     let favorites = JSON.parse(favorite);
-    let findFavorite = favorites.filter(value => value.name === pokemonName);
+    let findFavorite = favorites ? favorites.filter(value => value.name === pokemonName) : [];
     const pokemon = await API.getPokemon(pokemonName);
-    console.log(pokemon.types);
     var type=[];
     var abilities = [];
     pokemon.abilities.forEach((value) => {
@@ -42,8 +57,6 @@ class pokemonDetails extends Component{
     pokemon.types.forEach((value) => {
       type.push(value.type.name)
     });
-
-    console.log(pokemon.abilities);
     this.setState({
       checked: findFavorite.length > 0 ? true : false,
       pokemonId: pokemon.id,
@@ -163,8 +176,8 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   containerImage:{
-    width: 190,
-    height: 190,
+    width: 150,
+    height: 150,
     marginRight:15,
     borderWidth: 5,
     borderRadius: 100,
@@ -179,11 +192,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   checkboxContainer:{
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex:1
   },
   checkboxText: {
     marginTop: 5,
-    fontSize:18
+    fontSize:14
   },
   button:{
     marginTop:25

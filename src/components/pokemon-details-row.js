@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
     marginRight: 50,
   },
   label:{
-    fontSize:20,
+    fontSize:16,
     fontWeight:'bold',
     marginRight: 5,
   },
   text:{
-    fontSize:20,
+    fontSize:14,
     flexWrap: 'wrap',
   }
 });
