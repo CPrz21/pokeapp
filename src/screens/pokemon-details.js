@@ -31,7 +31,6 @@ class pokemonDetails extends Component{
     let favorites = JSON.parse(favorite);
     let findFavorite = favorites.filter(value => value.name === pokemonName);
     const pokemon = await API.getPokemon(pokemonName);
-    console.log(pokemon);
     this.setState({
       checked: findFavorite.length > 0 ? true : false,
       pokemonId: pokemon.id,
@@ -50,9 +49,6 @@ class pokemonDetails extends Component{
       let favorite = await AsyncStorage.getItem('favorites');
 
       let favorites = JSON.parse(favorite);
-      console.log(favorites);
-
-
       if (!this.state.checked){
         if (!favorites) {
           pokemons.push({
@@ -72,9 +68,6 @@ class pokemonDetails extends Component{
 
         pokemons = favorites;
       }
-
-      console.log(pokemons);
-      // AsyncStorage.setItem('favorites', pokemons);
 
       AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
         .then(() => {

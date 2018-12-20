@@ -9,7 +9,7 @@ import Separator from '../components/vertical-separator'
 import Pokemons from '../components/pokemons'
 
 export default class PokemonList extends Component{
-  // keyExtractor = (item) => item.id.toString();
+  keyExtractor = (item) => item.name;
   renderEmpty = () => <Empty text="Loading Your Pokemon" />;
   itemSeparator = () => <Separator color="#c7a008" />;
   renderItem = ({item}) => {
@@ -23,7 +23,7 @@ export default class PokemonList extends Component{
       title='Pokemon 1st Generation'
       >
         <FlatList
-          // keyExtractor={this.keyExtractor}
+          keyExtractor={this.keyExtractor}
           data = { this.props.list }
           ListEmptyComponent = {this.renderEmpty}
           ItemSeparatorComponent = {this.itemSeparator}

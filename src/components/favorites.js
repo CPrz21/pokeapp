@@ -12,20 +12,26 @@ import { withNavigation } from 'react-navigation';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
 class Favorites extends Component {
+
+componentDidMount(){
+
+}
+
 deleteFavorite = async (item) => {
-  let pokemons = [];
-  let favorite = await AsyncStorage.getItem('favorites');
-  let favorites = JSON.parse(favorite);
-  let deleteFavorite = favorites.findIndex(value => value.name === item);
-  let favoriteDeleted = favorites.splice(deleteFavorite, 1);
-  pokemons = favorites;
-  AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
-    .then(() => {
-      console.log('It was saved successfully')
-    })
-    .catch(() => {
-      console.log('There was an error saving the product')
-    });
+  this.props.fnRemove(item);
+  // let pokemons = [];
+  // let favorite = await AsyncStorage.getItem('favorites');
+  // let favorites = JSON.parse(favorite);
+  // let deleteFavorite = favorites.findIndex(value => value.name === item);
+  // let favoriteDeleted = favorites.splice(deleteFavorite, 1);
+  // pokemons = favorites;
+  // AsyncStorage.setItem('favorites', JSON.stringify(pokemons))
+  //   .then(() => {
+  //     console.log('It was saved successfully')
+  //   })
+  //   .catch(() => {
+  //     console.log('There was an error saving the product')
+  //   });
 }
 render(){
   return(
@@ -68,6 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 20,
   },
+
 });
 
 export default withNavigation(Favorites);
