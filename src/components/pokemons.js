@@ -18,6 +18,7 @@ render(){
             });
           }}>
         <View style={styles.right}>
+          <Image style={{width:40, height:40, marginLeft:10, resizeMode:'contain'}} source={require('../assets/img/Poke_ball_Single_Front_large.png')}/>
           <Text style={styles.title}>{this.props.name.slice(0, 1).toUpperCase() + this.props.name.slice(1, this.props.name.length)}</Text>
         </View>
     </TouchableOpacity>
@@ -26,6 +27,10 @@ render(){
 }
 
 const styles = StyleSheet.create({
+  right:{
+    flexDirection:'row',
+    alignItems: 'center',
+  },
   title:{
     fontSize: 18,
     fontWeight: 'bold',

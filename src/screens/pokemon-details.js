@@ -101,7 +101,10 @@ class pokemonDetails extends Component{
   }
   render() {
     return (
-      <View style={styles.container}>
+      <View>
+        <View style={styles.topLogo}>
+          <Image style={styles.logo} source={require('../assets/img/Pokemon-logo.png')} />
+        </View>
         <View style={styles.header}>
           <View style={styles.containerImage}>
             <Image style={styles.image} source={{ uri : this.state.pokemonImage.front_default}}/>
@@ -131,8 +134,14 @@ class pokemonDetails extends Component{
 }
 
 const styles = StyleSheet.create({
-  container:{
-
+  topLogo:{
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  logo:{
+    width: 200,
+    height: 100,
+    resizeMode: 'contain'
   },
   header:{
     paddingTop: 25,
@@ -165,15 +174,6 @@ const styles = StyleSheet.create({
   checkboxText: {
     marginTop: 5,
     fontSize:18
-  },
-  logoContainer:{
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  logo:{
-    width:100,
-    height:100,
-    resizeMode:'contain'
   },
   button:{
     marginTop:25
