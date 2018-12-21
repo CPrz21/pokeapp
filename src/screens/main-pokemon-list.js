@@ -32,8 +32,6 @@ export default class MainPokemonList extends Component {
 
   async componentDidMount() {
     const pokemons = await API.getAllPokemon();
-    console.log(pokemons);
-
     this.setState({
       pokemonList:pokemons,
       list: pokemons
@@ -42,7 +40,7 @@ export default class MainPokemonList extends Component {
 
   filterPokemon = () => {
     let pokemons = this.state.list;
-    let regex = new RegExp(this.state.textFilter, 'g');
+    let regex = new RegExp(this.state.textFilter.toLowerCase(), 'g');
     let filtered = pokemons.filter((value) => {
       return value.name.match(regex);
     });
