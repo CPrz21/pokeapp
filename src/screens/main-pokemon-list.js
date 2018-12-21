@@ -10,7 +10,8 @@ import PokemonList from '../containers/pokemon-list';
 import API from '../api/api';
 
 export default class MainPokemonList extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => {
+    return {
       title: 'Home',
       headerTitleStyle: {alignSelf: 'center'},
       headerTintColor: 'white',
@@ -19,9 +20,17 @@ export default class MainPokemonList extends Component {
       textAlign: 'center'
       },
       headerTitleStyle: {
-        width: '90%',
+        width: '100%',
         textAlign: 'center',
-      }
+      },
+      headerRight: (
+      <Button
+        onPress={() => navigation.navigate('Favorites')}
+        title="FAVS"
+        color="red"
+      />
+    ),
+    };
   };
 
   state = {
